@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Paramètres – Revolution{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">⚙️ Paramètres</h1>
+    <p class="page-subtitle">Configurez l'IA et vos sources de surveillance.</p>
+  </div>
+</div>
+
+<!-- AI Settings -->
+<section class="card settings-card">
+  <h2 class="card-title">🤖 Configuration de l'IA</h2>
+  <form id="settings-form">
+    <div class="form-group">
+      <label class="form-label" for="api-key">Clé API OpenAI</label>
+      <input type="password" id="api-key" name="openai_api_key" class="form-input"
+             placeholder="sk-…" autocomplete="off" />
+      <p class="form-hint">
+        Obtenez votre clé sur <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">platform.openai.com</a>.
+        Elle est stockée localement et n'est jamais partagée.
+      </p>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="model">Modèle OpenAI</label>
+      <select id="model" name="model" class="form-input">
+        <option value="gpt-4o-mini">gpt-4o-mini (recommandé, économique)</option>
+        <option value="gpt-4o">gpt-4o (plus puissant)</option>
+        <option value="gpt-3.5-turbo">gpt-3.5-turbo (économique)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="interval">Intervalle de vérification</label>
+      <select id="interval" name="check_interval" class="form-input">
+        <option value="15">Toutes les 15 minutes</option>
+        <option value="30">Toutes les 30 minutes</option>
+        <option value="60">Toutes les heures</option>
+        <option value="360">Toutes les 6 heures</option>
+        <option value="1440">Une fois par jour</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="language">Langue des résumés</label>
+      <select id="language" name="language" class="form-input">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Enregistrer les paramètres</button>
+  </form>
+</section>
+
+<!-- Sources -->
+<section class="card settings-card">
+  <h2 class="card-title">📡 Sources à surveiller</h2>
+  <p class="card-subtitle">
+    Ajoutez des flux RSS ou des pages web que l'IA analysera régulièrement.
+  </p>
+
+  <form id="add-source-form" class="add-source-form">
+    <div class="form-row">
+      <div class="form-group flex-1">
+        <label class="form-label" for="src-name">Nom</label>
+        <input type="text" id="src-name" class="form-input" placeholder="Ex: Le Monde" required />
+      </div>
+      <div class="form-group" style="width:130px">
+        <label class="form-label" for="src-type">Type</label>
+        <select id="src-type" class="form-input">
+          <option value="rss">Flux RSS</option>
+          <option value="webpage">Page web</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="src-url">URL</label>
+      <input type="url" id="src-url" class="form-input" placeholder="https://…" required />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="src-keywords">Mots-clés (optionnel)</label>
+      <input type="text" id="src-keywords" class="form-input"
+             placeholder="IA, technologie, finance — séparés par des virgules" />
+      <p class="form-hint">Si renseignés, l'IA priorisera ces sujets.</p>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter la source</button>
+  </form>
+
+  <!-- Sources list -->
+  <div id="sources-list" class="sources-list"></div>
+
+  <div id="sources-empty" class="empty-state-small" style="display:none">
+    <p>Aucune source ajoutée. Ajoutez un flux RSS ou une page web ci-dessus.</p>
+  </div>
+</section>
+
+<!-- Source item template -->
+<template id="source-template">
+  <div class="source-item" data-id="">
+    <div class="source-info">
+      <span class="source-type-badge"></span>
+      <div>
+        <div class="source-name"></div>
+        <div class="source-url"></div>
+        <div class="source-keywords"></div>
+      </div>
+    </div>
+    <button class="btn btn-small btn-danger source-delete-btn">Supprimer</button>
+  </div>
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  initSettings();
+</script>
+{% endblock %}

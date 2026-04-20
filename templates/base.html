@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Revolution – IA Notifications{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-name">Revolution</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+        <span class="nav-icon">🔔</span>
+        <span>Notifications</span>
+        <span class="badge" id="nav-badge" style="display:none">0</span>
+      </a>
+      <a href="/settings" class="nav-item {% if request.path == '/settings' %}active{% endif %}">
+        <span class="nav-icon">⚙️</span>
+        <span>Paramètres</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-status" id="ai-status">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Vérification…</span>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

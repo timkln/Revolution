@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications – Revolution{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">🔔 Notifications importantes</h1>
+    <p class="page-subtitle">L'IA surveille vos sources et vous alerte sur ce qui compte vraiment.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" id="btn-mark-all-read">Tout marquer lu</button>
+    <button class="btn btn-primary" id="btn-check-now">
+      <span class="btn-icon">🔍</span> Analyser maintenant
+    </button>
+  </div>
+</div>
+
+<!-- Stats bar -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-card">
+    <div class="stat-value" id="stat-unread">–</div>
+    <div class="stat-label">Non lues</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="stat-total">–</div>
+    <div class="stat-label">Total</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="stat-sources">–</div>
+    <div class="stat-label">Sources</div>
+  </div>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">Toutes</button>
+  <button class="filter-btn" data-filter="unread">Non lues</button>
+  <button class="filter-btn" data-filter="high">Score élevé (≥8)</button>
+</div>
+
+<!-- Spinner -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <p>Analyse en cours…</p>
+</div>
+
+<!-- Notifications list -->
+<div id="notifications-list" class="notifications-list"></div>
+
+<!-- Empty state -->
+<div class="empty-state" id="empty-state" style="display:none">
+  <div class="empty-icon">🤖</div>
+  <h2>Aucune notification pour l'instant</h2>
+  <p>
+    Ajoutez des sources à surveiller dans les <a href="/settings">paramètres</a>,
+    puis lancez une analyse ou attendez la prochaine vérification automatique.
+  </p>
+  <a href="/settings" class="btn btn-primary">Ajouter une source</a>
+</div>
+
+<!-- Notification card template -->
+<template id="notif-template">
+  <article class="notif-card" data-id="">
+    <div class="notif-header">
+      <div class="notif-meta">
+        <span class="notif-source"></span>
+        <span class="notif-time"></span>
+      </div>
+      <div class="notif-score-badge"></div>
+    </div>
+    <h3 class="notif-title"></h3>
+    <p class="notif-summary"></p>
+    <p class="notif-reason"></p>
+    <div class="notif-footer">
+      <a class="notif-link btn btn-small" href="#" target="_blank" rel="noopener noreferrer">
+        Lire l'article →
+      </a>
+      <button class="btn btn-small btn-outline notif-read-btn">Marquer lu</button>
+      <button class="btn btn-small btn-danger notif-delete-btn">Supprimer</button>
+    </div>
+  </article>
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  initDashboard();
+</script>
+{% endblock %}
